@@ -1,0 +1,146 @@
+No shutdown for OEM agent
+em agents came up after maintenance
+
+
+What about shutting down Jenkins agents and starting them back up in startup proceedure.
+
+set linesize 200 pagesize 90 
+col file_name format a60
+col tablespace_name format a20
+col file_id format 999999
+select file_id, file_name, tablespace_name from dba_data_files order by file_name ;
+
+dr database datafile was alreqdy in /u02/oradata
+
+relink done at 3:55
+
+Dave: could you please install xeyes and xclock on bandb5? 
+
+primary 19c install: 4:07-4:11
+
+[root@bandb5  oracle]$ rm 12.1.0_db1_home_20191127.tgz
+rm: remove regular file ‘12.1.0_db1_home_20191127.tgz’? y
+[root@bandb5  oracle]$
+
+
+[oracle@bandb5 PROD 32218454]$ date
+Sat Mar 27 16:54:31 CDT 2021
+[oracle@bandb5 PROD 32218454]$
+[oracle@bandb5 PROD 32218454]$ df -h
+Filesystem                          Size  Used Avail Use% Mounted on
+devtmpfs                             24G     0   24G   0% /dev
+tmpfs                                39G     0   39G   0% /dev/shm
+tmpfs                                24G  9.3M   24G   1% /run
+tmpfs                                24G     0   24G   0% /sys/fs/cgroup
+/dev/mapper/vgSystem-lvSlash        8.0G  3.1G  5.0G  39% /
+/dev/sda1                          1014M  193M  822M  19% /boot
+/dev/mapper/vgData-lvU02            625G   33M  625G   1% /u02
+/dev/mapper/vgData-lvU01             50G   35G   16G  69% /u01
+/dev/mapper/vgSystem-lvTmp          5.0G   61M  5.0G   2% /tmp
+/dev/mapper/vgSystem-lvVar          8.0G  3.4G  4.6G  43% /var
+/dev/mapper/vgSystem-lvHome         8.0G  1.8G  6.3G  23% /home
+/dev/mapper/vgSystem-lvVarLog       4.0G  787M  3.3G  20% /var/log
+/dev/mapper/vgBackup-lvU04          651G  7.5G  643G   2% /u04
+/dev/mapper/vgSystem-lvVarLogAudit  4.0G   68M  4.0G   2% /var/log/audit
+/dev/mapper/vgLogs-lvU08             10G  3.6G  6.5G  36% /u08
+/dev/mapper/vgLogs-lvU06             10G  3.6G  6.5G  36% /u06
+/dev/mapper/vgLogs-lvU07             10G  3.6G  6.5G  36% /u07
+tmpfs                               4.8G     0  4.8G   0% /run/user/150
+tmpfs                               4.8G     0  4.8G   0% /run/user/301
+bannfs1.harpercollege.edu:/seclogs   75G   70G  5.1G  94% /seclogs
+bannfs1.harpercollege.edu:/stage     85G   72G   14G  85% /stage
+tmpfs                               4.8G     0  4.8G   0% /run/user/0
+[oracle@bandb5 PROD 32218454]$
+
+
+[oracle@bandb5 PROD 31335142]$ chmod -R 755 $ORACLE_HOME/jdk
+chmod: missing operand after ‘755 /u01/app/oracle/product/banner/19.3.0/dbhome_1/jdk’
+Try 'chmod --help' for more information.
+[oracle@bandb5 PROD 31335142]$ chmod -R 755 $ORACLE_HOME/jdk
+chmod: missing operand after ‘755 /u01/app/oracle/product/banner/19.3.0/dbhome_1/jdk’
+Try 'chmod --help' for more information.
+[oracle@bandb5 PROD 31335142]$
+[oracle@bandb5 PROD 31335142]$ ls -ld $ORACLE_HOME/jdk
+drwxr-xr-x 7 oracle dba 247 Mar 27 16:59 /u01/app/oracle/product/banner/19.3.0/dbhome_1/jdk
+[oracle@bandb5 PROD 31335142]$
+[oracle@bandb5 PROD 31335142]$ chmod -R 755 $ORACLE_HOME/jdk  # Typed this manually
+[oracle@bandb5 PROD 31335142]$
+
+
+RMAN-00571: ===========================================================
+RMAN-00569: =============== ERROR MESSAGE STACK FOLLOWS ===============
+RMAN-00571: ===========================================================
+RMAN-03002: failure of backup plus archivelog command at 03/27/2021 17:21:11
+RMAN-06059: expected archived log not found, loss of archived log compromises recoverability
+ORA-19625: error identifying file /u04/flash_recovery_area/PROD/archivelog/2021_03_27/o1_mf_1_287561_j5yqhkrd_.arc
+ORA-27037: unable to obtain file status
+Linux-x86_64 Error: 2: No such file or directory
+Additional information: 7
+
+RMAN>
+
+
+
+using channel ORA_DISK_8
+RMAN-06169: could not read file header for datafile 1 error reason 4
+RMAN-00571: ===========================================================
+RMAN-00569: =============== ERROR MESSAGE STACK FOLLOWS ===============
+RMAN-00571: ===========================================================
+RMAN-03002: failure of backup plus archivelog command at 03/27/2021 17:36:06
+RMAN-06056: could not access datafile 1
+
+RMAN>
+
+
+
+
+
+Errors in file /u01/app/oracle/diag/rdbms/prod/PROD/trace/PROD_m000_26878.trc:
+ORA-01110: data file 8: '/u02/oradata/PROD/datafile/o1_mf_conversi_dffgb1fh_.dbf'
+ORA-01565: error in identifying file '/u02/oradata/PROD/datafile/o1_mf_conversi_dffgb1fh_.dbf'
+ORA-27037: unable to obtain file status
+Linux-x86_64 Error: 2: No such file or directory
+Additional information: 7
+2021-03-27T17:20:27.687488-05:00
+Errors in file /u01/app/oracle/diag/rdbms/prod/PROD/trace/PROD_m000_26878.trc:
+ORA-01110: data file 9: '/u02/oradata/PROD/datafile/o1_mf_developm_dffgb8qm_.dbf'
+ORA-01565: error in identifying file '/u02/oradata/PROD/datafile/o1_mf_developm_dffgb8qm_.dbf'
+ORA-27037: unable to obtain file status
+Linux-x86_64 Error: 2: No such file or directory
+Additional information: 7
+2021-03-27T17:20:27.772035-05:00
+Errors in file /u01/app/oracle/diag/rdbms/prod/PROD/trace/PROD_m000_26878.trc:
+ORA-01110: data file 10: '/u02/oradata/PROD/datafile/o1_mf_hcban_da_dffhm7j7_.dbf'
+ORA-01565: error in identifying file '/u02/oradata/PROD/datafile/o1_mf_hcban_da_dffhm7j7_.dbf'
+ORA-27037: unable to obtain file status
+Linux-x86_64 Error: 2: No such file or directory
+Additional information: 7
+2021-03-27T17:20:27.856961-05:00
+Errors in file /u01/app/oracle/diag/rdbms/prod/PROD/trace/PROD_m000_26878.trc:
+ORA-01110: data file 11: '/u02/oradata/PROD/datafile/o1_mf_hcban_id_dffgb1vd_.dbf'
+ORA-01565: error in identifying file '/u02/oradata/PROD/datafile/o1_mf_hcban_id_dffgb1vd_.dbf'
+ORA-27037: unable to obtain file status
+Linux-x86_64 Error: 2: No such file or directory
+Additional information: 7
+2021-03-27T17:20:27.942152-05:00
+Errors in file /u01/app/oracle/diag/rdbms/prod/PROD/trace/PROD_m000_26878.trc:
+ORA-01110: data file 12: '/u02/oradata/PROD/datafile/o1_mf_rman_ts_dffgb1w2_.dbf'
+ORA-01565: error in identifying file '/u02/oradata/PROD/datafile/o1_mf_rman_ts_dffgb1w2_.dbf'
+ORA-27037: unable to obtain file status
+Linux-x86_64 Error: 2: No such file or directory
+Additional information: 7
+2021-03-27T17:20:28.027474-05:00
+Errors in file /u01/app/oracle/diag/rdbms/prod/PROD/trace/PROD_m000_26878.trc:
+ORA-01110: data file 13: '/u02/oradata/PROD/datafile/o1_mf_tools_dffgb1w4_.dbf'
+ORA-01565: error in identifying file '/u02/oradata/PROD/datafile/o1_mf_tools_dffgb1w4_.dbf'
+ORA-27037: unable to obtain file status
+Linux-x86_64 Error: 2: No such file or directory
+
+
+
+
+
+
+
+
+
